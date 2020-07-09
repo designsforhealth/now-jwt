@@ -1,4 +1,3 @@
-// tslint:disable:no-expression-statement no-object-mutation
 import test from 'ava';
 import { sha256, sha256Native } from './hash';
 

@@ -13,7 +13,7 @@
     "prebuild": "run-s lint",
     "build": "run-s clean && tsc -b",
     "fmt": "prettier --write 'src/**/*.ts'",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint src/**/*.ts --cache --fix",
     "test": "run-s build test:*",
     "test:unit": "nyc --silent ava",
     "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",

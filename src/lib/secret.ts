@@ -1,4 +1,4 @@
-import { ArgumentError, Headers, JwksClient } from 'jwks-rsa';
+import jwksRsa from 'jwks-rsa';
 import { promisify } from 'util';
 import { NowRequest } from '@vercel/node/dist';
 import { Secret } from './jwt';
@@ -22,7 +22,7 @@ export interface NowJwtSecretOptions {
   jwksRequestsPerMinute?: number;
   proxy?: string;
   strictSsl?: boolean;
-  requestHeaders?: Headers;
+  requestHeaders?: jwksRsa.Headers;
   timeout?: number;
   handleSigningKeyError?: (err: Error) => Secret;
 }
@@ -38,12 +38,12 @@ export interface NowJwtSecretProvider {
  */
 export default (options: NowJwtSecretOptions): NowJwtSecretProvider => {
   if (options === null || options === undefined) {
-    throw new ArgumentError(
+    throw new jwksRsa.ArgumentError(
       'An options object must be provided when initializing nowJwtSecret'
     );
   }
 
-  const client = new JwksClient(options);
+  const client = jwksRsa(options);
   const onError = options.handleSigningKeyError || handleSigningKeyError;
   const getSigningKey = promisify(client.getSigningKey);
 

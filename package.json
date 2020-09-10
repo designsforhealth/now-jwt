@@ -5,7 +5,10 @@
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/designsforhealth/now-jwt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/designsforhealth/now-jwt.git"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },

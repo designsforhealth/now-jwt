@@ -6,6 +6,9 @@
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/designsforhealth/now-jwt",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com/"
+  },
   "license": "ISC",
   "keywords": [],
   "scripts": {

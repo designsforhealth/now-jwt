@@ -1,13 +1,13 @@
 {
   "name": "@designsforhealth/now-jwt",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Authentication and authorization functions for validating JWTs in serverless functions deployed on Vercel (formerly Zeit Now)",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/designsforhealth/now-jwt",
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/"
   },
   "license": "ISC",
   "keywords": [],

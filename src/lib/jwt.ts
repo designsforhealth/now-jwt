@@ -45,11 +45,9 @@ export const getTokenFromHeaders = (
   if (req.headers && req.headers.authorization) {
     const parts = req.headers.authorization.split(' ');
     if (parts.length !== 2) {
-      /*
       throw new UnauthorizedError('credentials_bad_format', {
         message: 'Format is Authorization: Bearer [token]'
       });
-       */
     }
 
     const [scheme, credentials] = parts;

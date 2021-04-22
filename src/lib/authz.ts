@@ -1,4 +1,4 @@
-import { NowRequest, NowResponse } from '@vercel/node/dist';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ForbiddenError } from './errors';
 
 export interface NowJwtAuthzOptions {
@@ -6,9 +6,11 @@ export interface NowJwtAuthzOptions {
   checkAllScopes?: boolean;
 }
 export interface NowJwtAuthzRequestHandler {
-  (req: NowRequest, res: NowResponse, user?: Record<string, any>): Promise<
-    void
-  >;
+  (
+    req: VercelRequest,
+    res: VercelResponse,
+    user?: Record<string, any>
+  ): Promise<void>;
 }
 
 export const getScopesFromUser = (
@@ -40,8 +42,8 @@ export default (
   }
 
   return async (
-    _req: NowRequest,
-    _res: NowResponse,
+    _req: VercelRequest,
+    _res: VercelResponse,
     user?: Record<string, any>
   ): Promise<void> => {
     if (expectedScopes.length === 0) {
@@ -61,8 +63,8 @@ export default (
 
     const allowed =
       options && options.checkAllScopes
-        ? expectedScopes.every(scope => userScopes.includes(scope))
-        : expectedScopes.some(scope => userScopes.includes(scope));
+        ? expectedScopes.every((scope) => userScopes.includes(scope))
+        : expectedScopes.some((scope) => userScopes.includes(scope));
 
     if (!allowed) {
       throw new ForbiddenError('Insufficient scope', expectedScopes);

@@ -1,4 +1,4 @@
-import { NowResponse } from '@vercel/node/dist';
+import type { VercelResponse } from '@vercel/node/dist';
 
 type ErrorLike = Error | { message: string };
 
@@ -13,7 +13,7 @@ export class ForbiddenError extends Error {
 }
 
 export const sendForbiddenError = (
-  res: NowResponse,
+  res: VercelResponse,
   err: ForbiddenError
 ): void => {
   res.setHeader(

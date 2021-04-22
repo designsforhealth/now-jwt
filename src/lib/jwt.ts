@@ -1,6 +1,6 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node/dist';
 import * as jwt from 'jsonwebtoken';
 import { UnauthorizedError } from './errors';
-import { NowRequest, NowResponse } from '@vercel/node/dist';
 import { promisify } from 'util';
 
 type AsyncVerifyFunction = (
@@ -17,13 +17,13 @@ const DEFAULT_REVOKED_FUNCTION = async () => false;
 export type Secret = string | Buffer;
 
 export interface SecretCallbackLong {
-  (req: NowRequest, header: any, payload: any): Promise<Secret>;
+  (req: VercelRequest, header: any, payload: any): Promise<Secret>;
 }
 export interface SecretCallback {
-  (req: NowRequest, payload: any): Promise<Secret>;
+  (req: VercelRequest, payload: any): Promise<Secret>;
 }
 export interface IsRevokedCallback {
-  (req: NowRequest, payload: any): Promise<boolean>;
+  (req: VercelRequest, payload: any): Promise<boolean>;
 }
 export interface NowJwtOptions extends jwt.VerifyOptions {
   secret: Secret | SecretCallback | SecretCallbackLong;
@@ -31,7 +31,9 @@ export interface NowJwtOptions extends jwt.VerifyOptions {
   isRevoked?: IsRevokedCallback;
 }
 export interface NowJwtRequestHandler {
-  (req: NowRequest, res: NowResponse): Promise<Record<string, any> | undefined>;
+  (req: VercelRequest, res: VercelResponse): Promise<
+    Record<string, any> | undefined
+  >;
 }
 
 const wrapStaticSecretInCallback = (
@@ -39,14 +41,14 @@ const wrapStaticSecretInCallback = (
 ): SecretCallback => async () => secret;
 
 export const getTokenFromHeaders = (
-  req: NowRequest,
+  req: VercelRequest,
   credentialsRequired: boolean
 ): string | undefined => {
   if (req.headers && req.headers.authorization) {
     const parts = req.headers.authorization.split(' ');
     if (parts.length !== 2) {
       throw new UnauthorizedError('credentials_bad_format', {
-        message: 'Format is Authorization: Bearer [token]'
+        message: 'Format is Authorization: Bearer [token]',
       });
     }
 
@@ -56,7 +58,7 @@ export const getTokenFromHeaders = (
     } else {
       if (credentialsRequired) {
         throw new UnauthorizedError('credentials_bad_scheme', {
-          message: 'Format is Authorization: Bearer [token]'
+          message: 'Format is Authorization: Bearer [token]',
         });
       }
     }
@@ -73,7 +75,7 @@ export const decodeToken = (token: string): Record<string, any> => {
   }
   if (typeof result !== 'object') {
     throw new UnauthorizedError('invalid_token', {
-      message: 'decoded token must be an object'
+      message: 'decoded token must be an object',
     });
   }
   return result;
@@ -104,8 +106,8 @@ export default (options: NowJwtOptions): NowJwtRequestHandler => {
       : options.credentialsRequired;
 
   return async (
-    req: NowRequest,
-    _res: NowResponse
+    req: VercelRequest,
+    _res: VercelResponse
   ): Promise<Record<string, any> | undefined> => {
     if (
       req.method === 'OPTIONS' &&
@@ -115,7 +117,7 @@ export default (options: NowJwtOptions): NowJwtRequestHandler => {
         'access-control-request-headers'
       ]
         .split(',')
-        .map(header => header.trim())
+        .map((header) => header.trim())
         .indexOf('authorization');
 
       if (hasAuthInAccessControl) {
@@ -128,7 +130,7 @@ export default (options: NowJwtOptions): NowJwtRequestHandler => {
     if (!token) {
       if (credentialsRequired) {
         throw new UnauthorizedError('credentials_required', {
-          message: 'No authorization token was found'
+          message: 'No authorization token was found',
         });
       } else {
         return;
@@ -158,17 +160,15 @@ export default (options: NowJwtOptions): NowJwtRequestHandler => {
     const checkRevoked = (
       decoded: Record<string, any>
     ): Promise<Record<string, any>> =>
-      isRevokedCallback(req, decodedToken.payload).then(revoked => {
+      isRevokedCallback(req, decodedToken.payload).then((revoked) => {
         if (revoked) {
           throw new UnauthorizedError('revoked_token', {
-            message: 'The token has been revoked.'
+            message: 'The token has been revoked.',
           });
         }
         return decoded;
       });
 
-    return getSecret()
-      .then(verifyToken)
-      .then(checkRevoked);
+    return getSecret().then(verifyToken).then(checkRevoked);
   };
 };

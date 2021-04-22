@@ -34,7 +34,9 @@
     "version": "standard-version",
     "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "rimraf build test",
-    "prepare-release": "run-s reset test cov:check doc:html version doc:publish"
+    "release": "standard-version",
+    "publish-release": "git push --follow-tags origin master && npm publish",
+    "github-release": "conventional-github-releaser -p angular -r 0"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
@@ -45,8 +47,7 @@
     "doc": "Generate HTML API documentation and open it in a browser",
     "doc:json": "Generate API documentation in typedoc JSON format",
     "version": "Bump package.json version, update CHANGELOG.md, tag release",
-    "reset": "Delete all untracked files and reset the repo to the last commit",
-    "prepare-release": "One-step: clean, build, test, publish docs, and prep a release"
+    "reset": "Delete all untracked files and reset the repo to the last commit"
   },
   "engines": {
     "node": ">=8.9"
@@ -59,6 +60,10 @@
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "conventional-github-releaser": "^3.1.5",
+    "standard-version": "^8.0.1",
     "@ava/typescript": "^1.1.1",
     "@bitjson/npm-scripts-info": "^1.0.0",
     "@bitjson/typedoc": "^0.15.0-0",
@@ -82,7 +87,6 @@
     "open-cli": "^5.0.0",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.2",
-    "standard-version": "^8.0.1",
     "ts-sinon": "^1.2.0",
     "typescript": "^3.9.6"
   },

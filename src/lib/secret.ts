@@ -1,6 +1,6 @@
+import type { VercelRequest } from '@vercel/node/dist';
 import jwksRsa from 'jwks-rsa';
 import { promisify } from 'util';
-import { NowRequest } from '@vercel/node/dist';
 import { Secret } from './jwt';
 
 const handleSigningKeyError = (err: Error): Secret => {
@@ -28,7 +28,7 @@ export interface NowJwtSecretOptions {
 }
 
 export interface NowJwtSecretProvider {
-  (req: NowRequest, header: any, payload: any): Promise<Secret>;
+  (req: VercelRequest, header: any, payload: any): Promise<Secret>;
 }
 
 /**
@@ -56,7 +56,7 @@ export default (options: NowJwtSecretOptions): NowJwtSecretProvider => {
     }
 
     return getSigningKey(header.kid)
-      .then(key => key.getPublicKey())
+      .then((key) => key.getPublicKey())
       .catch(onError);
   };
 };

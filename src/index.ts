@@ -5,6 +5,6 @@ import nowJwtSecret from './lib/secret';
 export {
   ForbiddenError,
   UnauthorizedError,
-  sendForbiddenError
+  sendForbiddenError,
 } from './lib/errors';
 export { nowJwt, nowJwtAuthz, nowJwtSecret };

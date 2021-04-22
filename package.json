@@ -47,7 +47,7 @@
     "doc": "Generate HTML API documentation and open it in a browser",
     "doc:json": "Generate API documentation in typedoc JSON format",
     "version": "Bump package.json version, update CHANGELOG.md, tag release",
-    "reset": "Delete all untracked files and reset the repo to the last commit",
+    "reset": "Delete all untracked files and reset the repo to the last commit"
   },
   "engines": {
     "node": ">=8.9"

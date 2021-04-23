@@ -52,13 +52,13 @@
     "node": ">=8.9"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.1",
+    "@vercel/node": "^1.10.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.2",
     "sha.js": "^2.4.11"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8.5.1",
-    "@vercel/node": "^1.10.0",
     "@ava/typescript": "^1.1.1",
     "@bitjson/npm-scripts-info": "^1.0.0",
     "@bitjson/typedoc": "^0.15.0-0",

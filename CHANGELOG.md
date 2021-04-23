@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/designsforhealth/now-jwt/compare/v1.1.0...v1.1.1) (2021-04-23)
+
+
+### Bug Fixes
+
+* [ch17826] - dependency adjustments ([ab9dbde](https://github.com/designsforhealth/now-jwt/commit/ab9dbdece329699ee870fb45bee9071ed3509f05))
+
 ## [1.1.0](https://github.com/designsforhealth/now-jwt/compare/v1.0.4...v1.1.0) (2021-04-22)
 
 
